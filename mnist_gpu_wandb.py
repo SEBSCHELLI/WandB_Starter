@@ -65,6 +65,8 @@ def test(model, test_loader, epoch):
             output = model(data.cuda())
             test_loss += F.nll_loss(output, target, reduction='sum').item()  # sum up batch loss
             pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
+            print(pred.eq(target.view_as(pred)))
+            print(pred.eq(target.view_as(pred)).shape)
             correct += pred.eq(target.view_as(pred)).sum().item()
 
     test_loss /= len(test_loader.dataset)
@@ -85,7 +87,7 @@ def test(model, test_loader, epoch):
 # define parameters
 config = {
     "lr": 5e-3,
-    "epochs": 10,
+    "epochs": 1,
     "train_batch_size": 64,
     "test_batch_size": 512,
     "model_dropout": 0.2
