@@ -59,7 +59,6 @@ def test(model, test_loader, epoch):
     model.eval()
     test_loss = 0
     correct = 0
-    first_misclassified_img = None
     with torch.no_grad():
         for data, target in test_loader:
             target = target.cuda()
@@ -67,15 +66,6 @@ def test(model, test_loader, epoch):
             test_loss += F.nll_loss(output, target, reduction='sum').item()  # sum up batch loss
             pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
             correct += pred.eq(target.view_as(pred)).sum().item()
-
-            if first_misclassified_img is None:
-                is_correct = pred.eq(target.view_as(pred))
-                misclassified_imgs = data[is_correct == False]
-                misclassified_labels = target[(is_correct == False).flatten()]
-                misclassified_preds = pred[(is_correct == False).flatten()]
-                first_misclassified_img = misclassified_imgs[0]
-                first_misclassified_label = misclassified_labels[0]
-                first_missclassifier_pred = misclassified_preds[0].item()
 
     test_loss /= len(test_loader.dataset)
     accuracy = 100. * correct / len(test_loader.dataset)
@@ -92,14 +82,6 @@ def test(model, test_loader, epoch):
     wandb.log(test_metrics)
     """"""""""""""""""""""""
 
-    if first_misclassified_img is not None:
-        image = wandb.Image(
-            first_misclassified_img,
-            caption=f"First misclassified image with GT={first_misclassified_label} and pred={first_missclassifier_pred}"
-        )
-        wandb.log({"epoch": epoch,
-                   "First misclassified example": image})
-
 # define parameters
 config = {
     "lr": 5e-3,
@@ -113,7 +95,7 @@ config = {
 def main():
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     " Create a new Weights&Biases (W&B) run within the project KTS_WB_Test "
-    wandb.init(project="KTS_OS_WB_MNIST_Finished", config=config)
+    wandb.init(project="KTS_OS_WB_MNIST", config=config)
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
