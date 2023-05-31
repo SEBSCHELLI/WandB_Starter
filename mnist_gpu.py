@@ -67,8 +67,8 @@ def test(model, test_loader, epoch):
 config = {
     "lr": 5e-3,
     "epochs": 10,
-    "train_batch_size": 32,
-    "test_batch_size": 500,
+    "train_batch_size": 64,
+    "test_batch_size": 512,
     "model_dropout": 0.2
 }
 
