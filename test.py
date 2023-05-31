@@ -306,3 +306,9 @@ b = torch.randint(0,2,(272,1,28,28))
 
 misclassified = b[a == False]
 first_misclassified_img = misclassified[0]
+
+
+target = torch.randint(0,2,(272,))
+target.shape
+
+target[(a == False).flatten()]

@@ -73,7 +73,7 @@ def test(model, test_loader, epoch):
                 print(is_correct.shape)
                 misclassified_imgs = data[is_correct == False]
                 print(target.shape)
-                misclassified_labels = target[is_correct == False]
+                misclassified_labels = target[(is_correct == False).flatten()]
                 first_misclassified_img = misclassified_imgs[0]
                 first_misclassified_label = misclassified_labels[0]
 
