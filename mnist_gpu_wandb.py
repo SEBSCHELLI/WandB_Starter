@@ -70,13 +70,12 @@ def test(model, test_loader, epoch):
 
             if first_misclassified_img is None:
                 is_correct = pred.eq(target.view_as(pred))
-                print(is_correct.shape)
                 misclassified_imgs = data[is_correct == False]
-                print(target.shape)
                 misclassified_labels = target[(is_correct == False).flatten()]
+                misclassified_preds = pred[(is_correct == False).flatten()]
                 first_misclassified_img = misclassified_imgs[0]
-                print(first_misclassified_img)
                 first_misclassified_label = misclassified_labels[0]
+                first_missclassifier_pred = misclassified_preds[0]
 
     test_loss /= len(test_loader.dataset)
     accuracy = 100. * correct / len(test_loader.dataset)
@@ -97,7 +96,7 @@ def test(model, test_loader, epoch):
         print(first_misclassified_img.shape)
         image = wandb.Image(
             first_misclassified_img,
-            caption=f"First misclassified image with GT={first_misclassified_label}"
+            caption=f"First misclassified image with GT={first_misclassified_label} and pred={first_missclassifier_pred}"
         )
         wandb.log({"examples": image})
 
