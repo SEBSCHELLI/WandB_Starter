@@ -34,7 +34,7 @@ def train(model, train_loader, optimizer, epoch):
 
         output = model(data.cuda())
 
-        loss = F.nll_loss(output, target)
+        loss = F.nll_loss(output, target.cuda())
         loss.backward()
         optimizer.step()
 
@@ -52,7 +52,7 @@ def test(model, test_loader, epoch):
     with torch.no_grad():
         for data, target in test_loader:
             output = model(data.cuda())
-            test_loss += F.nll_loss(output, target, reduction='sum').item()  # sum up batch loss
+            test_loss += F.nll_loss(output, target.cuda(), reduction='sum').item()  # sum up batch loss
             pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
             correct += pred.eq(target.view_as(pred)).sum().item()
 
