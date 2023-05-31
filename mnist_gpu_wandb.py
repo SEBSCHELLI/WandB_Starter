@@ -70,7 +70,9 @@ def test(model, test_loader, epoch):
 
             if not first_misclassified_img:
                 is_correct = pred.eq(target.view_as(pred))
+                print(is_correct.shape)
                 misclassified_imgs = data[is_correct == False]
+                print(target.shape)
                 misclassified_labels = target[is_correct == False]
                 first_misclassified_img = misclassified_imgs[0]
                 first_misclassified_label = misclassified_labels[0]
@@ -128,7 +130,7 @@ def main():
     transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
 
     dataset1 = datasets.MNIST('../data', train=True, download=True, transform=transform)
-    #dataset1 = Subset(dataset1, list(range(10000)))
+    dataset1 = Subset(dataset1, list(range(1000)))
     train_loader = torch.utils.data.DataLoader(dataset1,
                                                batch_size=train_batch_size,
                                                pin_memory=True,
