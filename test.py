@@ -14,7 +14,7 @@ for nw in range(20):
     dataset1 = datasets.MNIST('../data', train=True, download=True, transform=transform)
     # dataset1 = Subset(dataset1, list(range(10000)))
     train_loader = torch.utils.data.DataLoader(dataset1,
-                                                   batch_size=1,
+                                                   batch_size=2,
                                                    pin_memory=True,
                                                 num_workers=nw)
 
