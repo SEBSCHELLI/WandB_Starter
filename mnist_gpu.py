@@ -51,8 +51,9 @@ def test(model, test_loader, epoch):
     correct = 0
     with torch.no_grad():
         for data, target in test_loader:
+            target = target.cuda()
             output = model(data.cuda())
-            test_loss += F.nll_loss(output, target.cuda(), reduction='sum').item()  # sum up batch loss
+            test_loss += F.nll_loss(output, target, reduction='sum').item()  # sum up batch loss
             pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
             correct += pred.eq(target.view_as(pred)).sum().item()
 
