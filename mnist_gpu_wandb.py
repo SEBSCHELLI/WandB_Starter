@@ -75,7 +75,7 @@ def test(model, test_loader, epoch):
                 misclassified_preds = pred[(is_correct == False).flatten()]
                 first_misclassified_img = misclassified_imgs[0]
                 first_misclassified_label = misclassified_labels[0]
-                first_missclassifier_pred = misclassified_preds[0]
+                first_missclassifier_pred = misclassified_preds[0].item()
 
     test_loss /= len(test_loader.dataset)
     accuracy = 100. * correct / len(test_loader.dataset)
@@ -93,12 +93,11 @@ def test(model, test_loader, epoch):
     """"""""""""""""""""""""
 
     if first_misclassified_img is not None:
-        print(first_misclassified_img.shape)
         image = wandb.Image(
             first_misclassified_img,
             caption=f"First misclassified image with GT={first_misclassified_label} and pred={first_missclassifier_pred}"
         )
-        wandb.log({"examples": image})
+        wandb.log({"First misclassifier": image})
 
 
 # define parameters
