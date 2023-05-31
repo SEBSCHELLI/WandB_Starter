@@ -96,7 +96,7 @@ def main():
     optimizer = optim.AdamW(model.parameters(), lr=lr)
 
     # training and evaluation
-    for epoch in range(1, epochs + 1):
+    for epoch in range(epochs):
         train(model, train_loader, optimizer, epoch)
         test(model, test_loader, epoch)
 
