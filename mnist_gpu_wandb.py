@@ -59,15 +59,21 @@ def test(model, test_loader, epoch):
     model.eval()
     test_loss = 0
     correct = 0
+    first_misclassified_img = None
     with torch.no_grad():
         for data, target in test_loader:
             target = target.cuda()
             output = model(data.cuda())
             test_loss += F.nll_loss(output, target, reduction='sum').item()  # sum up batch loss
             pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
-            print(pred.eq(target.view_as(pred)))
-            print(pred.eq(target.view_as(pred)).shape)
             correct += pred.eq(target.view_as(pred)).sum().item()
+
+            if not first_misclassified_img:
+                is_correct = pred.eq(target.view_as(pred))
+                misclassified_imgs = data[is_correct == False]
+                misclassified_labels = target[is_correct == False]
+                first_misclassified_img = misclassified_imgs[0]
+                first_misclassified_label = misclassified_labels[0]
 
     test_loss /= len(test_loader.dataset)
     accuracy = 100. * correct / len(test_loader.dataset)
@@ -83,6 +89,15 @@ def test(model, test_loader, epoch):
     }
     wandb.log(test_metrics)
     """"""""""""""""""""""""
+
+    if first_misclassified_img:
+        print(first_misclassified_img.shape)
+        image = wandb.Image(
+            first_misclassified_img,
+            caption=f"First misclassified image with GT={first_misclassified_label}"
+        )
+        wandb.log({"examples": image})
+
 
 # define parameters
 config = {
