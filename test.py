@@ -20,7 +20,7 @@ for nw in range(20):
 
     start_time = time.time()
     for batch_idx, (data, target) in enumerate(train_loader):
-        print(data)
+        print(data.shape)
         break
     break
     print(f'{nw}: {(time.time() - start_time)}')
