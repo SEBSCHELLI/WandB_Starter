@@ -104,7 +104,7 @@ def main():
     # training and evaluation
     for epoch in range(epochs):
         train(model, train_loader, optimizer, epoch)
-        test(model, test_loader, epoch)
+        test(model, test_loader, epoch+1)
 
 
 if __name__ == '__main__':

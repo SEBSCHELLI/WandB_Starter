@@ -49,7 +49,7 @@ def train(model, train_loader, optimizer, epoch):
             " Log training metrics "
             train_metrics = {
                 "epoch": current_epoch,
-                "train loss": loss.item()
+                "train_loss": loss.item()
             }
             wandb.log(train_metrics)
             """"""""""""""""""""""""
@@ -76,8 +76,8 @@ def test(model, test_loader, epoch):
     " Log test metrics     "
     test_metrics = {
         "epoch": epoch,
-        "test loss": test_loss,
-        "test accuracy": accuracy
+        "test_loss": test_loss,
+        "test_accuracy": accuracy
     }
     wandb.log(test_metrics)
     """"""""""""""""""""""""
@@ -136,7 +136,7 @@ def main():
     # training and evaluation
     for epoch in range(epochs):
         train(model, train_loader, optimizer, epoch)
-        test(model, test_loader, epoch)
+        test(model, test_loader, epoch+1)
 
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     " (mandatory) let W&B know that the model training is finished   "
