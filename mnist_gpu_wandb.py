@@ -97,13 +97,14 @@ def test(model, test_loader, epoch):
             first_misclassified_img,
             caption=f"First misclassified image with GT={first_misclassified_label} and pred={first_missclassifier_pred}"
         )
-        wandb.log({"First misclassifier": image})
+        wandb.log({"epoch": epoch,
+                   "First misclassified example": image})
 
 
 # define parameters
 config = {
     "lr": 5e-3,
-    "epochs": 1,
+    "epochs": 2,
     "train_batch_size": 64,
     "test_batch_size": 512,
     "model_dropout": 0.2
