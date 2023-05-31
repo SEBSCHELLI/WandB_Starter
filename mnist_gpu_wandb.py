@@ -95,7 +95,7 @@ config = {
 def main():
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     " Create a new Weights&Biases (W&B) run within the project KTS_WB_Test "
-    wandb.init(project="KTS_OS_WB_MNIST", config=config)
+    wandb.init(project="KTS_OS_WB_MNIST_Finished", config=config)
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
