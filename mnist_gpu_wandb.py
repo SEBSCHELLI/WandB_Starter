@@ -68,13 +68,14 @@ def test(model, test_loader, epoch):
             pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
             correct += pred.eq(target.view_as(pred)).sum().item()
 
-            if not first_misclassified_img:
+            if first_misclassified_img is None:
                 is_correct = pred.eq(target.view_as(pred))
                 print(is_correct.shape)
                 misclassified_imgs = data[is_correct == False]
                 print(target.shape)
                 misclassified_labels = target[(is_correct == False).flatten()]
                 first_misclassified_img = misclassified_imgs[0]
+                print(first_misclassified_img)
                 first_misclassified_label = misclassified_labels[0]
 
     test_loss /= len(test_loader.dataset)
@@ -92,7 +93,7 @@ def test(model, test_loader, epoch):
     wandb.log(test_metrics)
     """"""""""""""""""""""""
 
-    if first_misclassified_img:
+    if first_misclassified_img is not None:
         print(first_misclassified_img.shape)
         image = wandb.Image(
             first_misclassified_img,
