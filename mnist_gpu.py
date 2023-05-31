@@ -84,12 +84,18 @@ def main():
     transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
 
     dataset1 = datasets.MNIST('../data', train=True, download=True, transform=transform)
-    #dataset1 = Subset(dataset1, list(range(10000)))
-    train_loader = torch.utils.data.DataLoader(dataset1, batch_size=train_batch_size)
+    # dataset1 = Subset(dataset1, list(range(10000)))
+    train_loader = torch.utils.data.DataLoader(dataset1,
+                                               batch_size=train_batch_size,
+                                               pin_memory=True,
+                                               num_workers=10)
 
     dataset2 = datasets.MNIST('../data', train=False, transform=transform)
-    #dataset2 = Subset(dataset2, list(range(5000)))
-    test_loader = torch.utils.data.DataLoader(dataset2, batch_size=test_batch_size)
+    # dataset2 = Subset(dataset2, list(range(5000)))
+    test_loader = torch.utils.data.DataLoader(dataset2,
+                                              batch_size=test_batch_size,
+                                              pin_memory=True,
+                                              num_workers=10)
 
     # load model
     model = Net(dropout=model_dropout).cuda()

@@ -115,14 +115,14 @@ def main():
     train_loader = torch.utils.data.DataLoader(dataset1,
                                                batch_size=train_batch_size,
                                                pin_memory=True,
-                                               num_workers=20)
+                                               num_workers=10)
 
     dataset2 = datasets.MNIST('../data', train=False, transform=transform)
     #dataset2 = Subset(dataset2, list(range(5000)))
     test_loader = torch.utils.data.DataLoader(dataset2,
                                               batch_size=test_batch_size,
                                               pin_memory=True,
-                                              num_workers=20)
+                                              num_workers=10)
 
     # load model
     model = Net(dropout=model_dropout).cuda()
